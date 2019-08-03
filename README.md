@@ -1,2 +1,2 @@
 # ElectricMotorTemperature
-Predicting electric motor temperature using multivariate linear regression
+Predicting the motor speeds depending on the tempreatures of different components in the motor
