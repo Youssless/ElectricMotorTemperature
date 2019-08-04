@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
@@ -53,6 +54,9 @@ pred = pd.DataFrame({'actual_motor_speeds':y_test.flatten(),
                     'stator_tooth':X_test['stator_tooth'], 
                     'stator_winding':X_test['stator_winding']})
 pred.to_csv('prediction.csv')
+
+plt.scatter(y_test, y_pred)
+plt.show()
 #print(y_pred)
 print("Squared error: " + str(metrics.mean_squared_error(y_test, y_pred)))
 print("Absolute error: " + str(metrics.mean_absolute_error(y_test, y_pred)))
