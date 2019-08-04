@@ -31,7 +31,8 @@ X = df_id_10[['ambient', 'coolant','pm', 'stator_yoke', 'stator_tooth', 'stator_
 # split the data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 
-regressor = LinearRegression()
+# train the data
+regressor = LinearRegression(normalize=True)
 regressor.fit(X_train, y_train)
 
 coefs = pd.DataFrame(regressor.coef_, X.columns, columns=['coef'])
@@ -39,9 +40,10 @@ coefs.to_csv('coefs.csv')
 print("motor_speed = " + str(regressor.coef_) + "X(i)" + " " + str(regressor.intercept_))
 print("Accuracy = " + str(regressor.score(X_train, y_train)*100) + "%")
 
-
+# predict the y values
 y_pred = regressor.predict(X_test)
 
+# save the data to csv's
 ys_df = pd.DataFrame({'Actual':y_test.flatten(), 'Predicted':y_pred.flatten()})
 ys_df.to_csv('y_pred.csv')
 
@@ -54,9 +56,13 @@ pred = pd.DataFrame({'actual_motor_speeds':y_test.flatten(),
                     'stator_tooth':X_test['stator_tooth'], 
                     'stator_winding':X_test['stator_winding']})
 pred.to_csv('prediction.csv')
-
-plt.scatter(y_test, y_pred)
-plt.show()
 #print(y_pred)
 print("Squared error: " + str(metrics.mean_squared_error(y_test, y_pred)))
 print("Absolute error: " + str(metrics.mean_absolute_error(y_test, y_pred)))
+
+# visualize the actual and predicted values
+plt.scatter(y_test, y_pred, c='red', marker='x')
+plt.xlabel('y_test data')
+plt.ylabel('y_predicted data')
+plt.title('Correlation between actual and predicted motor speeds')
+plt.show()
